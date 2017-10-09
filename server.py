@@ -8,24 +8,31 @@ import pdb
 
 app = Flask(__name__)
 mongo = MongoClient('localhost', 27017)
-app.db = mongo.local
+app.db = mongo.trip_planner_development
 app.bcrypt_rounds = 12
 api = Api(app)
 
 
 ## Write Resources here
 
+#Test uniqueness
+#Able to delete, update user accounts
+#Have to log in for getting the account
+# password length
+
 class User(Resource):
+
+
     def post(self):
         new_user = request.json
         user_collection = app.db.user
-        
+
         if new_user.get('name') and new_user.get('email') and new_user.get('password'):
             result = user_collection.insert_one(new_user)
             myUser = user_collection.find({'_id': ObjectId(result.insert_id)})
-            return (result, 202, None)
+            return (result, 202, Nsone)
         else:
-            return ("nothing", 404, None)
+            return ({"error": "Can't create user"}, 404, None)
 
 
     def get(self, myobject_id):
@@ -34,13 +41,75 @@ class User(Resource):
 
         if myUser is None:
             response = jsonify(data=[])
+            return ({"error": "Can't create user"}, 404, None)
+        else:
+            return myUser
+
+    def patch(self):
+        params = request.args
+        name_param = params['name']
+        new_email = params['email']
+        new_password = params['password']
+
+        user_collection = app.db.user
+        myUser = user_collection.update_one(
+            {"email": new_email},
+            {
+                '$set': {
+                    "name": name_param,
+                    "password":new_password
+                }
+            }
+        )
+        return myUser
+
+    def delete(self, myobject_id):
+        user_collection = app.db.user
+        params = request.args
+        email = params['email']
+        myUser = user_collection.delete_one({'email': email})
+
+        if myUser is None:
+            response = jsonify(data=[])
             response.status_code = 404
             return response
         else:
             return myUser
-    def put(self, name):
+
+
+#
+
+class Trip(Resource):
+
+    def post(self):
+        new_trip = request.json
         user_collection = app.db.user
-        myUser = user_collection.find_one({'name': ""})
+        email = new_trip.get('email')
+        destination = new_trip.get('destination')
+        place_name = new_trip.get('place_name')
+        latitude = new_trip.get('latitude')
+        longtitude = new_trip.get("longtitude")
+        completion = new_trip.get("Complete")
+        start_date = new_trip.get("start_date")
+        end_date = new_trip.get("end_date")
+
+        if email and destination and place_name and latitude and longtitude and completion and start_date and end_date:
+            result = user_collection.insert_one({
+                "Destination": destination {
+                    waypoints: [{
+                    "Place Name": place_name,
+                    "Longtitude": longtitude,
+                    "Latitude": latitude
+
+                    }]
+                }
+            })
+
+        pass
+
+    def get(self):
+        pass
+
 
 
 ## Add api routes here

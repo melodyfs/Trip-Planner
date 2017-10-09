@@ -1,4 +1,4 @@
-#!/Users/melodyyang/Desktop/trip-planner/development/bin/python
+#!/Users/melodyyang/Desktop/Trip Planner/development/bin/python
 
 import sys
 import getopt
