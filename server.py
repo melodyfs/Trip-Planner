@@ -88,24 +88,26 @@ class Trip(Resource):
         destination = new_trip.get('destination')
         place_name = new_trip.get('place_name')
         latitude = new_trip.get('latitude')
-        longtitude = new_trip.get("longtitude")
+        longitude = new_trip.get("longitude")
         completion = new_trip.get("Complete")
         start_date = new_trip.get("start_date")
         end_date = new_trip.get("end_date")
 
-        if email and destination and place_name and latitude and longtitude and completion and start_date and end_date:
-            result = user_collection.insert_one({
-                "Destination": destination {
-                    waypoints: [{
-                    "Place Name": place_name,
-                    "Longtitude": longtitude,
-                    "Latitude": latitude
-
-                    }]
-                }
-            })
-
-        pass
+        if email and destination and place_name and latitude and longitude and completion and start_date and end_date:
+            result = user_collection.update_one(
+                {"email": email},
+                {'$set': {
+                "destination": destination,
+                "waypoints": [
+                    { "place_name": place_name,
+                        "longitude": longitude,
+                        "latitude": latitude
+                    }],
+                    "completion": completion,
+                    "start_date": start_date,
+                    "end_date": end_date
+            }
+        })
 
     def get(self):
         pass
@@ -114,7 +116,7 @@ class Trip(Resource):
 
 ## Add api routes here
 api.add_resource(User,'/user/', '/user/<string:myobject_id>')
-
+api.add_resource(Trip,'/trip/')
 #  Custom JSON serializer for flask_restful
 @api.representation('application/json')
 def output_json(data, code, headers=None):
