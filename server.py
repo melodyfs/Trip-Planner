@@ -27,41 +27,49 @@ class User(Resource):
         new_user = request.json
         user_collection = app.db.user
 
-        if new_user.get('name') and new_user.get('email') and new_user.get('password'):
-            result = user_collection.insert_one(new_user)
-            myUser = user_collection.find({'_id': ObjectId(result.insert_id)})
-            return (result, 202, Nsone)
+        if 'name' in new_user and 'email' in new_user and 'password' in new_user:
+            user = user_collection.find_one({'email': new_user.get('email')})
+            if user:
+                 return ({'error': 'email already exists'}, 409, None)
+            else:
+                result = user_collection.insert_one(new_user)
+                return (result, 202, None)
         else:
             return ({"error": "Can't create user"}, 404, None)
 
 
-    def get(self, myobject_id):
+    def get(self):
         user_collection = app.db.user
-        myUser = user_collection.find_one({'_id': ObjectId(myobject_id)})
+        email = request.args.get("email")
+        myUser = user_collection.find_one({'email': email})
 
         if myUser is None:
             response = jsonify(data=[])
-            return ({"error": "Can't create user"}, 404, None)
+            return ({"error": "Can't get the user"}, 404, None)
         else:
             return myUser
 
     def patch(self):
-        params = request.args
-        name_param = params['name']
-        new_email = params['email']
-        new_password = params['password']
+        email = request.args.get('email')
 
+        update_ = request.json
+        name = update_.get('name')
+        password = update_.get('password')
         user_collection = app.db.user
-        myUser = user_collection.update_one(
-            {"email": new_email},
-            {
-                '$set': {
-                    "name": name_param,
-                    "password":new_password
-                }
-            }
-        )
-        return myUser
+
+        if email:
+            myUser = user_collection.update_one(
+                {"email": email},
+                {
+                    '$set': {
+                        "name": name,
+                        "password":password
+                        }
+                        }
+                )
+            return myUser
+        else:
+            return ({"error": "Can't modify the user"}, 404, None)
 
     def delete(self, myobject_id):
         user_collection = app.db.user
@@ -82,18 +90,20 @@ class User(Resource):
 class Trip(Resource):
 
     def post(self):
+        args = request.args
         new_trip = request.json
         user_collection = app.db.user
-        email = new_trip.get('email')
+
+        email = args.get('email')
         destination = new_trip.get('destination')
         place_name = new_trip.get('place_name')
         latitude = new_trip.get('latitude')
         longitude = new_trip.get("longitude")
-        completion = new_trip.get("Complete")
+        completion = new_trip.get("complete")
         start_date = new_trip.get("start_date")
         end_date = new_trip.get("end_date")
 
-        if email and destination and place_name and latitude and longitude and completion and start_date and end_date:
+        if 'email' in args :
             result = user_collection.update_one(
                 {"email": email},
                 {'$set': {
@@ -108,14 +118,53 @@ class Trip(Resource):
                     "end_date": end_date
             }
         })
+        else:
+            return ({"error": "Can't create trip"}, 404, None)
 
     def get(self):
-        pass
+        args = request.args
+        destination = args.get("destination")
+        email = args.get("email")
+        user_collection = app.db.user
+
+        if 'email' in args and 'destination' in args:
+            trip = user_collection.find_one({'destination': destination})
+            return trip
+        else:
+            return ({"error": "Can't find the trip"}, 404, None)
+
+    def patch(self):
+        args = request.args
+        destination = args.get("destination")
+        email = args.get("email")
+        user_collection = app.db.user
+
+        if 'email' in args and 'destination' in args:
+            trip = user_collection.update_one(
+                {'email': email},
+                {"$set":
+                 {'destination': destination}
+                 })
+            return trip
+        else:
+            return ({"error": "Can't modify the trip"}, 404, None)
+
+    def delete(self):
+        args = request.args
+        destination = args.get("destination")
+        email = args.get("email")
+        user_collection = app.db.user
+
+        if 'email' in args and 'destination' in args:
+            trip = user_collection.delete_one({'destination': destination})
+            return trip
+        else:
+            return ({"error": "Can't delete the trip"}, 404, None)
 
 
 
 ## Add api routes here
-api.add_resource(User,'/user/', '/user/<string:myobject_id>')
+api.add_resource(User,'/user/')
 api.add_resource(Trip,'/trip/')
 #  Custom JSON serializer for flask_restful
 @api.representation('application/json')
