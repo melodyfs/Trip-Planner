@@ -33,9 +33,9 @@ class User(Resource):
                  return ({'error': 'email already exists'}, 409, None)
             else:
                 result = user_collection.insert_one(new_user)
-                return (result, 202, None)
+                return (result, 201, None)
         else:
-            return ({"error": "Can't create user"}, 404, None)
+            return ({"error": "Can't create user"}, 400, None)
 
 
     def get(self):
@@ -55,6 +55,7 @@ class User(Resource):
         update_ = request.json
         name = update_.get('name')
         password = update_.get('password')
+        new_email = update_.get('email')
         user_collection = app.db.user
 
         if email:
@@ -62,6 +63,7 @@ class User(Resource):
                 {"email": email},
                 {
                     '$set': {
+                        "email": new_email,
                         "name": name,
                         "password":password
                         }
@@ -96,28 +98,24 @@ class Trip(Resource):
 
         email = args.get('email')
         destination = new_trip.get('destination')
-        place_name = new_trip.get('place_name')
-        latitude = new_trip.get('latitude')
-        longitude = new_trip.get("longitude")
-        completion = new_trip.get("complete")
+        waypoints = new_trip.get('waypoints')
+        completion = new_trip.get("completion")
         start_date = new_trip.get("start_date")
         end_date = new_trip.get("end_date")
 
+        pdb.set_trace()
         if 'email' in args :
             result = user_collection.update_one(
                 {"email": email},
                 {'$set': {
                 "destination": destination,
-                "waypoints": [
-                    { "place_name": place_name,
-                        "longitude": longitude,
-                        "latitude": latitude
-                    }],
-                    "completion": completion,
-                    "start_date": start_date,
-                    "end_date": end_date
+                "waypoints": waypoints,
+                "completion": completion,
+                "start_date": start_date,
+                "end_date": end_date
             }
         })
+            return result
         else:
             return ({"error": "Can't create trip"}, 404, None)
 
