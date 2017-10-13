@@ -9,16 +9,33 @@ import pdb
 app = Flask(__name__)
 mongo = MongoClient('localhost', 27017)
 app.db = mongo.trip_planner_development
-app.bcrypt_rounds = 12
+# app.bcrypt_rounds = 12
 api = Api(app)
 
+def auth_validation(email, password):
+    user_collection = app.db.user
+    myUser = user_collection.find_one({'email': email})
+    user_password = myUser['password']
 
-## Write Resources here
+    if myUser is None:
+        return ({"error": "Email not found"}, 404, None)
+    else:
+        encodedPassword = password.encode('utf-8')
+        if bcrypt.hashpw(encodedPassword, user_password) == user_password:
+            return True
+        else:
+            return False
 
-#Test uniqueness
-#Able to delete, update user accounts
-#Have to log in for getting the account
-# password length
+def auth_function(func):
+    def wrapper(*args, **kwargs):
+        auth = request.authorization
+        if not auth_validation(auth.username, auth.password):
+            return ({'error': 'Could not verify your credentials'}, 401,
+                    {'WWW-Authenticate': 'Basic realm="Login Required"'})
+        return func(*args, **kwargs)
+    return wrapper
+
+
 
 class User(Resource):
 
@@ -32,8 +49,19 @@ class User(Resource):
             if user:
                  return ({'error': 'email already exists'}, 409, None)
             else:
-                result = user_collection.insert_one(new_user)
-                return (result, 201, None)
+
+                password = new_user.get('password')
+                app.bcrypt_rounds = 12
+                # Convert password to utf-8 string
+                encodedPassword = password.encode('utf-8')
+                hashed = bcrypt.hashpw(encodedPassword, bcrypt.gensalt(app.bcrypt_rounds))
+                result = user_collection.insert({'name': new_user.get('name'),
+                                                 'email': new_user.get('email'),
+                                                 'password': hashed})
+
+                user.pop(password)
+
+                return (user, 201, None)
         else:
             return ({"error": "Can't create user"}, 400, None)
 
@@ -41,38 +69,45 @@ class User(Resource):
     def get(self):
         user_collection = app.db.user
         email = request.args.get("email")
+        password = request.args.get('password')
         myUser = user_collection.find_one({'email': email})
 
         if myUser is None:
-            response = jsonify(data=[])
-            return ({"error": "Can't get the user"}, 404, None)
+            return ({"error": "Email not found"}, 404, None)
         else:
-            return myUser
+            encodedPassword = password.encode('utf-8')
+            if bcrypt.hashpw(encodedPassword, myUser['password']) == myUser['password']:
+                # myUser.pop(password)
+                return (myUser, 200, None)
+            else:
+                return ({"error": "Invalid credentials"}, 400, None)
 
+
+    # @auth_function
     def patch(self):
         email = request.args.get('email')
 
         update_ = request.json
-        name = update_.get('name')
-        password = update_.get('password')
+        new_name = update_.get('name')
+        new_password = update_.get('password')
         new_email = update_.get('email')
         user_collection = app.db.user
 
-        if email:
-            myUser = user_collection.update_one(
-                {"email": email},
-                {
-                    '$set': {
-                        "email": new_email,
-                        "name": name,
-                        "password":password
-                        }
-                        }
-                )
-            return myUser
+        if email is not None:
+            user = user_collection.find_one({'email': email})
+            if new_email:
+                 user["email"] = new_email
+            if new_name:
+                user['name'] = new_name
+            if new_password:
+                user['password'] = new_password
+            user_collection.save(user)
+
+            return (user, 200, None)
         else:
             return ({"error": "Can't modify the user"}, 404, None)
 
+    # @auth_function
     def delete(self, myobject_id):
         user_collection = app.db.user
         params = request.args
@@ -87,10 +122,10 @@ class User(Resource):
             return myUser
 
 
-#
 
 class Trip(Resource):
 
+    # @auth_function
     def post(self):
         args = request.args
         new_trip = request.json
@@ -119,6 +154,7 @@ class Trip(Resource):
         else:
             return ({"error": "Can't create trip"}, 404, None)
 
+    # @auth_function
     def get(self):
         args = request.args
         destination = args.get("destination")
@@ -131,6 +167,7 @@ class Trip(Resource):
         else:
             return ({"error": "Can't find the trip"}, 404, None)
 
+    # @auth_function
     def patch(self):
         args = request.args
         destination = args.get("destination")
@@ -147,6 +184,7 @@ class Trip(Resource):
         else:
             return ({"error": "Can't modify the trip"}, 404, None)
 
+    # @auth_function
     def delete(self):
         args = request.args
         destination = args.get("destination")
@@ -161,9 +199,10 @@ class Trip(Resource):
 
 
 
-## Add api routes here
+##api routes
 api.add_resource(User,'/user/')
 api.add_resource(Trip,'/trip/')
+
 #  Custom JSON serializer for flask_restful
 @api.representation('application/json')
 def output_json(data, code, headers=None):
@@ -172,7 +211,5 @@ def output_json(data, code, headers=None):
     return resp
 
 if __name__ == '__main__':
-    # Turn this on in debug mode to get detailled information about request
-    # related exceptions: http://flask.pocoo.org/docs/0.10/config/
     app.config['TRAP_BAD_REQUEST_ERRORS'] = True
     app.run(debug=True)

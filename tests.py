@@ -34,7 +34,7 @@ class TripPlannerTestCase(unittest.TestCase):
             content_type='application/json')
 
         response = self.app.get('/user/', query_string=dict(email="melody@example.com"))
-        # response_json = json.loads(response.data.decode())
+        response_json = json.loads(response.data.decode())
 
         self.assertEqual(response.status_code, 200)
 
