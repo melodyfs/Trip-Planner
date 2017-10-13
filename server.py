@@ -39,7 +39,6 @@ def auth_function(func):
 
 class User(Resource):
 
-
     def post(self):
         new_user = request.json
         user_collection = app.db.user
@@ -65,7 +64,7 @@ class User(Resource):
         else:
             return ({"error": "Can't create user"}, 400, None)
 
-
+    # @auth_function
     def get(self):
         user_collection = app.db.user
         email = request.args.get("email")
@@ -77,7 +76,7 @@ class User(Resource):
         else:
             encodedPassword = password.encode('utf-8')
             if bcrypt.hashpw(encodedPassword, myUser['password']) == myUser['password']:
-                # myUser.pop(password)
+                myUser.pop('password')
                 return (myUser, 200, None)
             else:
                 return ({"error": "Invalid credentials"}, 400, None)

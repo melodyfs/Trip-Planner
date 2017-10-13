@@ -22,7 +22,7 @@ class TripPlannerTestCase(unittest.TestCase):
       db = mongo.trip_planner_development
       server.app.db = db
 
-      db.drop_collection('tests')
+      db.drop_collection('user')
 
     # User tests, fill with test methods
     def testCreateUser(self):
@@ -68,28 +68,28 @@ class TripPlannerTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-    # def test_patch_user(self):
-    #     original = self.app.post(
-    #         '/user/',
-    #         headers=None,
-    #         data=json.dumps(dict(name="Joan", email="joan@example.com", password="pppp")),
-    #         content_type='application/json')
-    #     self.assertEqual(original.status_code, 201)
-    #
-    #     update = self.app.patch(
-    #         '/user/',
-    #         headers=None,
-    #         data=json.dumps(dict(name="Joan", email="j@example.com", password="ooooooo")),
-    #          query_string=dict(email="joan@example.com"),
-    #         content_type='application/json')
-    #     self.assertEqual(update.status_code, 200)
-    #
-    #     get_updated_user = self.app.get(
-    #         '/user/',
-    #         headers=None,
-    #         query_string=dict(email="joan@example.com"),
-    #         content_type='application/json')
-    #     self.assertEqual(get_updated_user.status_code, 404)
+    def test_patch_user(self):
+        original = self.app.post(
+            '/user/',
+            headers=None,
+            data=json.dumps(dict(name="Joan", email="joan@example.com", password="pppp")),
+            content_type='application/json')
+        self.assertEqual(original.status_code, 201)
+
+        update = self.app.patch(
+            '/user/',
+            headers=None,
+            data=json.dumps(dict(name="Joan", email="j@example.com", password="ooooooo")),
+             query_string=dict(email="joan@example.com"),
+            content_type='application/json')
+        self.assertEqual(update.status_code, 200)
+
+        get_updated_user = self.app.get(
+            '/user/',
+            headers=None,
+            query_string=dict(email="joan@example.com"),
+            content_type='application/json')
+        self.assertEqual(get_updated_user.status_code, 404)
     #
 
 
