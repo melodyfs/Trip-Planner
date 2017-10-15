@@ -7,6 +7,15 @@ from pymongo import MongoClient
 
 
 class TripPlannerTestCase(unittest.TestCase):
+
+    def generate_basic_auth(username, password):
+        concat_string = username + ":" + password
+        utf8 = concat_string.encode('utf-8')
+        base64 = base64.b64encode(utf8)
+
+        return base64
+
+
     def setUp(self):
 
       self.app = server.app.test_client()
@@ -19,12 +28,13 @@ class TripPlannerTestCase(unittest.TestCase):
       # Reduce encryption workloads for tests
       server.app.bcrypt_rounds = 4
 
-      db = mongo.trip_planner_development
+      db = mongo.tests_development
       server.app.db = db
 
       db.drop_collection('user')
 
-    # User tests, fill with test methods
+# Tests for Users
+
     def testCreateUser(self):
 
         self.app.post(
@@ -90,7 +100,25 @@ class TripPlannerTestCase(unittest.TestCase):
             query_string=dict(email="joan@example.com"),
             content_type='application/json')
         self.assertEqual(get_updated_user.status_code, 404)
-    #
+
+    def test_delete_user(self):
+        original = self.app.post(
+            '/user/',
+            headers=None,
+            data=json.dumps(dict(name="Delete", email="delete@example.com", password="delete")),
+            content_type='application/json')
+        self.assertEqual(original.status_code, 201)
+
+        delete = self.app.delete(
+            '/user/',
+            headers=None,
+            data=json.dumps(dict(email="delete@example.com")),
+            content_type='application/json')
+        self.assertEqual(delete.status_code, 201)
+
+# Tests for trips
+
+    
 
 
 if __name__ == '__main__':

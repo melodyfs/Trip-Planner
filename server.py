@@ -64,7 +64,7 @@ class User(Resource):
         else:
             return ({"error": "Can't create user"}, 400, None)
 
-    # @auth_function
+    @auth_function
     def get(self):
         user_collection = app.db.user
         email = request.args.get("email")
@@ -82,7 +82,7 @@ class User(Resource):
                 return ({"error": "Invalid credentials"}, 400, None)
 
 
-    # @auth_function
+    @auth_function
     def patch(self):
         email = request.args.get('email')
 
@@ -106,7 +106,7 @@ class User(Resource):
         else:
             return ({"error": "Can't modify the user"}, 404, None)
 
-    # @auth_function
+    @auth_function
     def delete(self, myobject_id):
         user_collection = app.db.user
         params = request.args
