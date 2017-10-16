@@ -16,13 +16,13 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Networking.shared.fetch(route: .getUser) { (data) in
-            
+            print(data)
             let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data)
-
+            print(userInfo)
             guard let user = userInfo?.user else { return }
             self.users = user
             
-            
+           
         }
     }
     

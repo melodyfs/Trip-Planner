@@ -78,11 +78,11 @@ class Networking {
         
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = route.headers()
-//        request.setValue("Basic bmV3dXNlckBlbWFpbC5jb206bmV3dXNlcg==", forHTTPHeaderField: "Authorization")
+        request.setValue("Basic bmV3dXNlckBlbWFpbC5jb206bmV3dXNlcg==", forHTTPHeaderField: "Authorization")
         
         session.dataTask(with: request) { (data, res, err) in
             if let data = data {
-                
+//                print("get to networking")
                 completion(data)
             }
             else {

@@ -64,7 +64,7 @@ class User(Resource):
         else:
             return ({"error": "Can't create user"}, 400, None)
 
-    # @auth_function
+    @auth_function
     def get(self):
         user_collection = app.db.user
         email = request.args.get("email")
