@@ -64,22 +64,22 @@ class User(Resource):
         else:
             return ({"error": "Can't create user"}, 400, None)
 
-    @auth_function
+    # @auth_function
     def get(self):
         user_collection = app.db.user
         email = request.args.get("email")
-        password = request.args.get('password')
+        # password = request.args.get('password')
         myUser = user_collection.find_one({'email': email})
 
         if myUser is None:
             return ({"error": "Email not found"}, 404, None)
         else:
-            encodedPassword = password.encode('utf-8')
-            if bcrypt.hashpw(encodedPassword, myUser['password']) == myUser['password']:
-                myUser.pop('password')
-                return (myUser, 200, None)
-            else:
-                return ({"error": "Invalid credentials"}, 400, None)
+            # encodedPassword = password.encode('utf-8')
+            # if bcrypt.hashpw(encodedPassword, myUser['password']) == myUser['password']:
+            myUser.pop('password')
+            return (myUser, 200, None)
+            # else:
+            #     return ({"error": "Invalid credentials"}, 400, None)
 
 
     @auth_function
@@ -137,7 +137,6 @@ class Trip(Resource):
         start_date = new_trip.get("start_date")
         end_date = new_trip.get("end_date")
 
-        pdb.set_trace()
         if 'email' in args :
             result = user_collection.update_one(
                 {"email": email},
