@@ -137,17 +137,23 @@ class Trip(Resource):
         start_date = new_trip.get("start_date")
         end_date = new_trip.get("end_date")
 
+        pdb.set_trace()
+
         if 'email' in args :
             result = user_collection.update_one(
                 {"email": email},
                 {'$set': {
-                "destination": destination,
-                "waypoints": waypoints,
-                "completion": completion,
-                "start_date": start_date,
-                "end_date": end_date
-            }
-        })
+                    "trips": [
+                        {
+                        'destination': destination,
+                        'waypoints': waypoints,
+                        "completion": completion,
+                        "start_date": start_date,
+                        "end_date": end_date
+                    }]
+                }
+             })
+            
             return result
         else:
             return ({"error": "Can't create trip"}, 404, None)
@@ -199,7 +205,7 @@ class Trip(Resource):
 
 ##api routes
 api.add_resource(User,'/user/')
-api.add_resource(Trip,'/trip/')
+api.add_resource(Trip,'/user/trips/')
 
 #  Custom JSON serializer for flask_restful
 @api.representation('application/json')

@@ -41,13 +41,14 @@ enum Route {
         case .getTrip: fallthrough
         case .patchTrip: fallthrough
         case .deleteTrip:
-            return "trip/"
+            return "user/trips/"
         }
     }
     
     func headers() -> [String: String] {
         let headers = ["Content-Type": "application/json",
-                       "Accept": "application/json"]
+                       "Accept": "application/json",
+                       ]
         return headers
         
     }
