@@ -43,7 +43,7 @@ class User(Resource):
         new_user = request.json
         user_collection = app.db.user
 
-        if 'name' in new_user and 'email' in new_user and 'password' in new_user:
+        if 'email' in new_user and 'password' in new_user:
             user = user_collection.find_one({'email': new_user.get('email')})
             if user:
                  return ({'error': 'email already exists'}, 409, None)
@@ -54,8 +54,7 @@ class User(Resource):
                 # Convert password to utf-8 string
                 encodedPassword = password.encode('utf-8')
                 hashed = bcrypt.hashpw(encodedPassword, bcrypt.gensalt(app.bcrypt_rounds))
-                result = user_collection.insert({'name': new_user.get('name'),
-                                                 'email': new_user.get('email'),
+                result = user_collection.insert({'email': new_user.get('email'),
                                                  'password': hashed})
 
                 user.pop(password)
@@ -87,7 +86,7 @@ class User(Resource):
         email = request.args.get('email')
 
         update_ = request.json
-        new_name = update_.get('name')
+        # new_name = update_.get('name')
         new_password = update_.get('password')
         new_email = update_.get('email')
         user_collection = app.db.user
@@ -96,8 +95,8 @@ class User(Resource):
             user = user_collection.find_one({'email': email})
             if new_email:
                  user["email"] = new_email
-            if new_name:
-                user['name'] = new_name
+            # if new_name:
+            #     user['name'] = new_name
             if new_password:
                 user['password'] = new_password
             user_collection.save(user)
@@ -153,7 +152,7 @@ class Trip(Resource):
                     }]
                 }
              })
-            
+
             return result
         else:
             return ({"error": "Can't create trip"}, 404, None)

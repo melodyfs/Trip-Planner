@@ -19,7 +19,6 @@ struct BasicAuth {
     }
 }
 
-let uDefault = UserDefaults.standard
 
 enum Route {
     case createUser
@@ -47,18 +46,29 @@ enum Route {
     }
     
     func headers() -> [String: String] {
-        UserDefaults.standard.synchronize()
-        let headers = ["Content-Type": "application/json",
-                       "Accept": "application/json",
-                       "Authorization": "\(String(describing: UserDefaults.standard.value(forKey: "BasicAuth")))"]
-        return headers
+        switch self {
+        case .createUser:
+            return [:]
+        default:
+            let headers = ["Content-Type": "application/json",
+                           "Accept": "application/json",
+                           "Authorization": String(describing: UserDefaults.standard.value(forKey: "BasicAuth")!)]
+            
+            return headers
+        }
         
     }
     
     func urlParams() -> [String: String] {
-        let urlParams = ["email": "newuser@email.com"]
+        switch self {
+        case .createUser:
+            return [:]
+        default:
+            let urlParams = ["email": String(describing: UserDefaults.standard.value(forKey: "email")!)]
+            return urlParams
+        }
         
-        return urlParams
+        
     }
 
     
@@ -81,6 +91,7 @@ class Networking {
         
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = route.headers()
+        UserDefaults.standard.synchronize()
 //        request.setValue("Basic bmV3dXNlckBlbWFpbC5jb206bmV3dXNlcg==", forHTTPHeaderField: "Authorization")
         
         session.dataTask(with: request) { (data, res, err) in
