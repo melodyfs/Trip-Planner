@@ -11,29 +11,56 @@ import UIKit
 
 class HomeVC: UIViewController {
     
-    var trips: [Trip] = []
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+
+    
     var basicAuth = ""
+    
+    @IBAction func loginButton(_ sender: Any) {
+        
+        UserDefaults.standard.set(emailTextField.text, forKey: "email")
+        UserDefaults.standard.set(passwordTextField.text, forKey: "password")
+        
+        let username = UserDefaults.standard.value(forKey: "email")!
+        let password = UserDefaults.standard.value(forKey: "password")!
+
+        basicAuth = BasicAuth.generateBasicAuthHeader(username: username as! String, password: password as! String)
+         UserDefaults.standard.set(basicAuth, forKey: "BasicAuth")
+        
+        DispatchQueue.main.async {
+            self.basicAuth = BasicAuth.generateBasicAuthHeader(username: username as! String, password: password as! String)
+            UserDefaults.standard.set(self.basicAuth, forKey: "BasicAuth")
+            UserDefaults.standard.synchronize()
+            Networking.shared.fetch(route: .getUser) { (data) in
+                let trips = try? JSONDecoder().decode(Trip.self, from: data)
+                print(trips)
+                
+                
+            }
+        }
+       
+        
+        
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        basicAuth = BasicAuth.generateBasicAuthHeader(username: "newuser@email.com", password: "newuser")
-        
-        Networking.shared.fetch(route: .getUser) { (data) in
-//            print(data)
-            let trips = try? JSONDecoder().decode(Trip.self, from: data)
-            print(trips)
-            guard let trip = trips?.trips else { return }
-//            self.trips = trip
             
-           
         }
-    }
+
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     
 }
+
+
+
+
+

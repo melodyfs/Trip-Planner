@@ -15,6 +15,8 @@
 		6C039CA01F94768D0021F9D9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C039C9F1F94768D0021F9D9 /* User.swift */; };
 		6C039CA21F9476A60021F9D9 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C039CA11F9476A60021F9D9 /* HomeVC.swift */; };
 		6C039CA41F95645B0021F9D9 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C039CA31F95645B0021F9D9 /* Trip.swift */; };
+		6CD878921F96DC55005724E1 /* TripsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD878911F96DC55005724E1 /* TripsVC.swift */; };
+		6CD878961F96E348005724E1 /* TripTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD878951F96E348005724E1 /* TripTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		6C039C9F1F94768D0021F9D9 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6C039CA11F9476A60021F9D9 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		6C039CA31F95645B0021F9D9 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		6CD878911F96DC55005724E1 /* TripsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsVC.swift; sourceTree = "<group>"; };
+		6CD878951F96E348005724E1 /* TripTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,11 +68,8 @@
 				6C039C991F946E740021F9D9 /* Views */,
 				6C039C981F946E6F0021F9D9 /* VCs */,
 				6C039C971F946E650021F9D9 /* Models */,
-				6C039C851F946E5D0021F9D9 /* AppDelegate.swift */,
 				6C039C891F946E5D0021F9D9 /* Main.storyboard */,
-				6C039C8C1F946E5D0021F9D9 /* Assets.xcassets */,
-				6C039C8E1F946E5D0021F9D9 /* LaunchScreen.storyboard */,
-				6C039C911F946E5D0021F9D9 /* Info.plist */,
+				6CD878941F96DD51005724E1 /* Supporting */,
 			);
 			path = TripPlanner;
 			sourceTree = "<group>";
@@ -86,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				6C039CA11F9476A60021F9D9 /* HomeVC.swift */,
+				6CD878911F96DC55005724E1 /* TripsVC.swift */,
 			);
 			path = VCs;
 			sourceTree = "<group>";
@@ -93,6 +95,7 @@
 		6C039C991F946E740021F9D9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6CD878951F96E348005724E1 /* TripTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -103,6 +106,17 @@
 				6C039C9B1F946EDA0021F9D9 /* Networking.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		6CD878941F96DD51005724E1 /* Supporting */ = {
+			isa = PBXGroup;
+			children = (
+				6C039C851F946E5D0021F9D9 /* AppDelegate.swift */,
+				6C039C8E1F946E5D0021F9D9 /* LaunchScreen.storyboard */,
+				6C039C911F946E5D0021F9D9 /* Info.plist */,
+				6C039C8C1F946E5D0021F9D9 /* Assets.xcassets */,
+			);
+			path = Supporting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -178,6 +192,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C039CA41F95645B0021F9D9 /* Trip.swift in Sources */,
+				6CD878961F96E348005724E1 /* TripTableViewCell.swift in Sources */,
+				6CD878921F96DC55005724E1 /* TripsVC.swift in Sources */,
 				6C039C9C1F946EDA0021F9D9 /* Networking.swift in Sources */,
 				6C039CA21F9476A60021F9D9 /* HomeVC.swift in Sources */,
 				6C039CA01F94768D0021F9D9 /* User.swift in Sources */,
@@ -319,7 +335,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = TripPlanner/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/TripPlanner/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Melody-Yang.TripPlanner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -333,7 +349,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = TripPlanner/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/TripPlanner/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Melody-Yang.TripPlanner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
