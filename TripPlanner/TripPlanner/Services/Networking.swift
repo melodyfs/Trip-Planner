@@ -22,25 +22,16 @@ struct BasicAuth {
 
 enum Route {
     case createUser
+//    (email: String, password: String)
     case getUser
-    case patchUser
-    case deleteUser
     case createTrip
-    case getTrip
-    case patchTrip
-    case deleteTrip
     
     func path() -> String {
         switch self {
         case .createUser: fallthrough
-        case .getUser: fallthrough
-        case .patchUser: fallthrough
-        case .deleteUser:
+        case .getUser:
             return "user/"
-        case .createTrip: fallthrough
-        case .getTrip: fallthrough
-        case .patchTrip: fallthrough
-        case .deleteTrip:
+        case .createTrip:
             return "user/trips/"
         }
     }
@@ -67,8 +58,47 @@ enum Route {
             let urlParams = ["email": String(describing: UserDefaults.standard.value(forKey: "email")!)]
             return urlParams
         }
-        
-        
+    }
+//    data: Encodable?
+    
+    func body(data: Encodable?) -> Data? {
+        switch self {
+//            let .createUser(email, password)
+        case .createUser:
+            let body = ["email": "email",
+                        "password": "password"]
+//            let httpBody = try? JSONSerialization.data(withJSONObject: body)
+//            return httpBody
+            let encoder = JSONEncoder()
+            guard let model = data as? User else {return nil}
+            let result = try? encoder.encode(model)
+            let jsonString = String(data: result!, encoding: .utf8)
+            print(jsonString)
+
+            return result
+        case .createTrip:
+            let encoder = JSONEncoder()
+            guard let model = data as? NewTrip else {return nil}
+            let result = try? encoder.encode(model)
+            let jsonString = String(data: result!, encoding: .utf8)
+            print(jsonString)
+            
+            return result
+        default:
+            let error = ["error": "incorrect method"]
+            let jsonErr = try? JSONSerialization.data(withJSONObject: error)
+            return jsonErr
+        }
+    }
+    
+    func method() -> String {
+        switch self {
+        case .createUser: fallthrough
+        case .createTrip:
+            return "POST"
+        default:
+            return "GET"
+        }
     }
 
     
@@ -84,16 +114,18 @@ class Networking {
     let session = URLSession.shared
     let baseURL = "http://127.0.0.1:5000/"
     
-    func fetch(route: Route, completion: @escaping (Data) -> Void) {
+    func fetch(route: Route, data: Encodable?, completion: @escaping (Data) -> Void) {
         let fullURL = baseURL.appending(route.path())
         var url = URL(string: fullURL)!
         url = url.appendingQueryParameters(route.urlParams())
         
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = route.headers()
+        request.httpBody = route.body(data: data)
+        request.httpMethod = route.method()
         UserDefaults.standard.synchronize()
-//        request.setValue("Basic bmV3dXNlckBlbWFpbC5jb206bmV3dXNlcg==", forHTTPHeaderField: "Authorization")
-        
+//        Route.createUser(email: (UserDefaults.standard.value(forKey: "email")) as! String, password: (UserDefaults.standard.value(forKey: "password")) as! String)
+//
         session.dataTask(with: request) { (data, res, err) in
             if let data = data {
 //                print("get to networking")

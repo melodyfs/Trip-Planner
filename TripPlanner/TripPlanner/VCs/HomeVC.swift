@@ -18,6 +18,27 @@ class HomeVC: UIViewController {
     var basicAuth = ""
     
     @IBAction func signUpButton(_ sender: Any) {
+        
+        UserDefaults.standard.set(emailTextField.text, forKey: "email")
+        UserDefaults.standard.set(passwordTextField.text, forKey: "password")
+        
+        let username = UserDefaults.standard.value(forKey: "email")!
+        let password = UserDefaults.standard.value(forKey: "password")!
+        let user = User(email: "\(username)", password: "\(password)")
+        
+        basicAuth = BasicAuth.generateBasicAuthHeader(username: username as! String, password: password as! String)
+        UserDefaults.standard.set(basicAuth, forKey: "BasicAuth")
+        UserDefaults.standard.synchronize()
+        
+        Networking.shared.fetch(route: .createUser, data: user) { (data) in
+            print("User created")
+            
+        }
+        
+        
+
+        
+        
     }
     @IBAction func loginButton(_ sender: Any) {
         
@@ -33,7 +54,7 @@ class HomeVC: UIViewController {
         UserDefaults.standard.synchronize()
         
         DispatchQueue.main.async {
-            Networking.shared.fetch(route: .getUser) { (data) in
+            Networking.shared.fetch(route: .getUser, data: nil) { (data) in
                 let trips = try? JSONDecoder().decode(Trip.self, from: data)
                 print(trips)
                 

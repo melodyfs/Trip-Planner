@@ -131,21 +131,22 @@ class Trip(Resource):
 
         email = args.get('email')
         destination = new_trip.get('destination')
-        waypoints = new_trip.get('waypoints')
+        # waypoints = new_trip.get('waypoints')
         completion = new_trip.get("completion")
         start_date = new_trip.get("start_date")
         end_date = new_trip.get("end_date")
+        user = user_collection.find_one({'email': email})
 
-        pdb.set_trace()
+        # pdb.set_trace()
 
-        if 'email' in args :
-            result = user_collection.update_one(
+        if 'email' in args and destination not in user:
+            result = user_collection.insert_one(
                 {"email": email},
                 {'$set': {
                     "trips": [
                         {
                         'destination': destination,
-                        'waypoints': waypoints,
+                        # 'waypoints': waypoints,
                         "completion": completion,
                         "start_date": start_date,
                         "end_date": end_date

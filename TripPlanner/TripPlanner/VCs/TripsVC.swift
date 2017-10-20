@@ -20,9 +20,9 @@ class TripsVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        Networking.shared.fetch(route: .getUser) { (data) in
+        Networking.shared.fetch(route: .getUser, data: nil) { (data) in
             let trips = try? JSONDecoder().decode(Trip.self, from: data)
-            print(trips)
+            print(trips!)
             guard let trip = trips?.trips else { return }
             self.trips = trip
             
@@ -38,7 +38,7 @@ class TripsVC: UIViewController {
     
     }
     
-
+    
 
 }
 

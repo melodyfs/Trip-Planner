@@ -8,19 +8,19 @@
 
 import Foundation
 
-struct User: Decodable {
+struct User: Codable {
     
     var email: String
-    var name: String
-    var trips: [Trip]
+    var password: String
+//    var trips: [Trip]
 
-    init(email: String, name: String, trips: [Trip]) {
-        self.email = email
-        self.name = name
-        self.trips = trips
+//    init(email: String, password: String) {
+//        self.email = email
+//        self.password = password
+//       , self.trips = trips
 
-    }
-    
+//    }
+//    
 }
 
 

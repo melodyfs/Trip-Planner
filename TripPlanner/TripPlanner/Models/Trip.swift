@@ -8,6 +8,15 @@
 
 import Foundation
 
+struct NewTrip: Codable {
+    
+    var completion: Bool
+    var destination: String
+    var start_date: String
+    var end_date: String
+    
+}
+
 struct Trip: Decodable {
     
     var completion: Bool!

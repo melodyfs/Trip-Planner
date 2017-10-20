@@ -15,6 +15,7 @@
 		6C039CA01F94768D0021F9D9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C039C9F1F94768D0021F9D9 /* User.swift */; };
 		6C039CA21F9476A60021F9D9 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C039CA11F9476A60021F9D9 /* HomeVC.swift */; };
 		6C039CA41F95645B0021F9D9 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C039CA31F95645B0021F9D9 /* Trip.swift */; };
+		6CA8B28B1F99872A00F06790 /* NewTripVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA8B28A1F99872A00F06790 /* NewTripVC.swift */; };
 		6CD878921F96DC55005724E1 /* TripsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD878911F96DC55005724E1 /* TripsVC.swift */; };
 		6CD878961F96E348005724E1 /* TripTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD878951F96E348005724E1 /* TripTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -30,6 +31,7 @@
 		6C039C9F1F94768D0021F9D9 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6C039CA11F9476A60021F9D9 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		6C039CA31F95645B0021F9D9 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		6CA8B28A1F99872A00F06790 /* NewTripVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTripVC.swift; sourceTree = "<group>"; };
 		6CD878911F96DC55005724E1 /* TripsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsVC.swift; sourceTree = "<group>"; };
 		6CD878951F96E348005724E1 /* TripTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,6 +90,7 @@
 			children = (
 				6C039CA11F9476A60021F9D9 /* HomeVC.swift */,
 				6CD878911F96DC55005724E1 /* TripsVC.swift */,
+				6CA8B28A1F99872A00F06790 /* NewTripVC.swift */,
 			);
 			path = VCs;
 			sourceTree = "<group>";
@@ -195,6 +198,7 @@
 				6CD878961F96E348005724E1 /* TripTableViewCell.swift in Sources */,
 				6CD878921F96DC55005724E1 /* TripsVC.swift in Sources */,
 				6C039C9C1F946EDA0021F9D9 /* Networking.swift in Sources */,
+				6CA8B28B1F99872A00F06790 /* NewTripVC.swift in Sources */,
 				6C039CA21F9476A60021F9D9 /* HomeVC.swift in Sources */,
 				6C039CA01F94768D0021F9D9 /* User.swift in Sources */,
 				6C039C861F946E5D0021F9D9 /* AppDelegate.swift in Sources */,

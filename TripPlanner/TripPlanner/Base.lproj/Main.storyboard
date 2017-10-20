@@ -76,7 +76,7 @@
                                         <state key="normal" title="Log In"/>
                                         <connections>
                                             <action selector="loginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MDH-wR-JK9"/>
-                                            <segue destination="641-Iu-LUW" kind="show" id="ie2-jO-bTF"/>
+                                            <segue destination="8re-Un-k0r" kind="show" id="ie2-jO-bTF"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fki-nZ-pLD">
@@ -218,13 +218,101 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="NRr-1a-rda"/>
                     </view>
+                    <navigationItem key="navigationItem" id="1Nn-vu-yfS">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="WuL-lh-xp5">
+                            <connections>
+                                <action selector="createTrip:" destination="641-Iu-LUW" id="fOK-DO-3tA"/>
+                                <segue destination="mBe-sT-IO8" kind="show" id="Ads-lt-Of1"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="FOg-YW-Ag1" id="UYK-Hf-PSc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WlA-bI-wrB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="759.20000000000005" y="31.934032983508249"/>
+            <point key="canvasLocation" x="1482" y="31"/>
+        </scene>
+        <!--New Trip-->
+        <scene sceneID="yMX-Lg-5jT">
+            <objects>
+                <viewController id="mBe-sT-IO8" customClass="NewTripVC" customModule="TripPlanner" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kGv-OC-6cM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ffC-7f-eh5">
+                                <rect key="frame" x="37" y="122" width="300" height="300"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destination" textAlignment="natural" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="WaZ-pF-jda">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="67.5"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Start Date" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="4eE-ZF-88D">
+                                        <rect key="frame" x="0.0" y="77.5" width="300" height="67.5"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="End Date" textAlignment="natural" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="b8U-JO-by5">
+                                        <rect key="frame" x="0.0" y="155" width="300" height="67.5"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tUk-Yi-WT7">
+                                        <rect key="frame" x="0.0" y="232.5" width="300" height="67.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <state key="normal" title="Create"/>
+                                        <connections>
+                                            <action selector="createTrip:" destination="mBe-sT-IO8" eventType="touchUpInside" id="92F-ey-lRV"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="MJQ-Sl-Zdw"/>
+                                    <constraint firstAttribute="width" constant="300" id="PM2-u1-aci"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ffC-7f-eh5" firstAttribute="centerY" secondItem="kGv-OC-6cM" secondAttribute="centerY" constant="-61.5" id="ImL-7S-Mgd"/>
+                            <constraint firstItem="ffC-7f-eh5" firstAttribute="centerX" secondItem="kGv-OC-6cM" secondAttribute="centerX" id="m23-n8-xsb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="gRH-Sz-Oar"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="New Trip" id="JGA-rQ-0oK"/>
+                    <connections>
+                        <outlet property="destinationTextField" destination="WaZ-pF-jda" id="Z0j-4X-dLN"/>
+                        <outlet property="endDateTextField" destination="b8U-JO-by5" id="OMj-eQ-HMQ"/>
+                        <outlet property="startDateTextField" destination="4eE-ZF-88D" id="V2p-KY-vAe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6QE-q9-WoU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2244" y="30.134932533733135"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="gZo-io-G9S">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8re-Un-k0r" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="G9k-Le-hWh">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="641-Iu-LUW" kind="relationship" relationship="rootViewController" id="JGB-Nx-dhO"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ysW-R9-eQP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="758.39999999999998" y="31.484257871064472"/>
         </scene>
     </scenes>
 </document>
