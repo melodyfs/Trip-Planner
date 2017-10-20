@@ -159,7 +159,7 @@
                                                     <rect key="frame" x="281" y="64" width="78" height="30"/>
                                                     <state key="normal" title="Complete"/>
                                                     <connections>
-                                                        <action selector="completeButton:" destination="Myc-MQ-8nc" eventType="touchUpInside" id="gMs-Mt-8eZ"/>
+                                                        <action selector="completion:" destination="641-Iu-LUW" eventType="touchUpInside" id="Ile-jf-Cx0"/>
                                                     </connections>
                                                 </button>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="28" translatesAutoresizingMaskIntoConstraints="NO" id="voe-H8-LXI">
@@ -269,6 +269,7 @@
                                         <state key="normal" title="Create"/>
                                         <connections>
                                             <action selector="createTrip:" destination="mBe-sT-IO8" eventType="touchUpInside" id="92F-ey-lRV"/>
+                                            <segue destination="641-Iu-LUW" kind="show" id="R1d-hR-2Yz"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -315,4 +316,7 @@
             <point key="canvasLocation" x="758.39999999999998" y="31.484257871064472"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="R1d-hR-2Yz"/>
+    </inferredMetricsTieBreakers>
 </document>

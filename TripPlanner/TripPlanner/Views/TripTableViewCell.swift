@@ -14,8 +14,6 @@ class TripTableViewCell: UITableViewCell {
     @IBOutlet weak var startDateLabel: UILabel!
     @IBOutlet weak var endDateLabel: UILabel!
 
-    @IBAction func completeButton(_ sender: Any) {
-    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

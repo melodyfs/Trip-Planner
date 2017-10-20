@@ -123,7 +123,7 @@ class User(Resource):
 
 class Trip(Resource):
 
-    # @auth_function
+    @auth_function
     def post(self):
         args = request.args
         new_trip = request.json
@@ -158,7 +158,7 @@ class Trip(Resource):
         else:
             return ({"error": "Can't create trip"}, 404, None)
 
-    # @auth_function
+    @auth_function
     def get(self):
         args = request.args
         destination = args.get("destination")
@@ -167,11 +167,12 @@ class Trip(Resource):
 
         if 'email' in args and 'destination' in args:
             trip = user_collection.find_one({'destination': destination})
-            return trip
+            _trip = trip["trips"]
+            return _trip
         else:
             return ({"error": "Can't find the trip"}, 404, None)
 
-    # @auth_function
+    @auth_function
     def patch(self):
         args = request.args
         destination = args.get("destination")
@@ -184,37 +185,25 @@ class Trip(Resource):
         new_completion = update_.get('completion')
         new_start_date = update_.get('start_date')
         new_end_date = update_.get('end_date')
+        # pdb.set_trace()
 
+        if user and destination:
+            if new_destination:
+                user['trips'][0]['destination'] = new_destination
+                # pdb.set_trace()
+            if new_completion:
+                user['trips'][0]['completion'] = new_completion
+            if new_start_date:
+                user['trips'][0]['start_date'] = new_start_date
+            if new_end_date:
+                user['trips'][0]['end_date'] = new_end_date
+            user_collection.save(user)
 
-        if user:
-            if destination:
-                result = user_collection.update_one(
-                    {'email': email},
-                    {'$set': {
-                        "trips": {
-                            'destination': new_destination,
-                        # 'waypoints': waypoints,
-                            "completion": new_completion,
-                            "start_date": new_start_date,
-                            "end_date": new_end_date
-                            }
-                            }
-                        })
-                # if new_destination:
-                #     user{['destination']} = new_destination
-                # if new_completion:
-                #     user['completion'] = new_completion
-                # if new_start_date:
-                #     user['start_date'] = new_start_date
-                # if new_end_date:
-                #     user['end_date'] = new_end_date
-                # user_collection.save(user)
-
-            return (result, 200, None)
+            return (user, 200, None)
         else:
             return ({"error": "Can't modify the trip"}, 404, None)
 
-    # @auth_function
+    @auth_function
     def delete(self):
         args = request.args
         destination = args.get("destination")

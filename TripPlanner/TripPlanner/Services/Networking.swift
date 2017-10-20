@@ -25,13 +25,14 @@ enum Route {
 //    (email: String, password: String)
     case getUser
     case createTrip
+    case patchTrip
     
     func path() -> String {
         switch self {
-        case .createUser: fallthrough
-        case .getUser:
+        case .createUser, .getUser:
             return "user/"
-        case .createTrip:
+        case .createTrip: fallthrough
+        case .patchTrip:
             return "user/trips/"
         }
     }
@@ -54,6 +55,9 @@ enum Route {
         switch self {
         case .createUser:
             return [:]
+        case .patchTrip:
+            let urlParams = ["email": String(describing: UserDefaults.standard.value(forKey: "email")!)]
+            return urlParams
         default:
             let urlParams = ["email": String(describing: UserDefaults.standard.value(forKey: "email")!)]
             return urlParams
@@ -65,8 +69,8 @@ enum Route {
         switch self {
 //            let .createUser(email, password)
         case .createUser:
-            let body = ["email": "email",
-                        "password": "password"]
+//            let body = ["email": "email",
+//                        "password": "password"]
 //            let httpBody = try? JSONSerialization.data(withJSONObject: body)
 //            return httpBody
             let encoder = JSONEncoder()
@@ -78,7 +82,7 @@ enum Route {
             return result
         case .createTrip:
             let encoder = JSONEncoder()
-            guard let model = data as? NewTrip else {return nil}
+            guard let model = data as? Trip else {return nil}
             let result = try? encoder.encode(model)
             let jsonString = String(data: result!, encoding: .utf8)
             print(jsonString)
@@ -96,6 +100,8 @@ enum Route {
         case .createUser: fallthrough
         case .createTrip:
             return "POST"
+        case .patchTrip:
+            return "PATCH"
         default:
             return "GET"
         }

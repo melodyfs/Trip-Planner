@@ -15,7 +15,7 @@ class NewTripVC: UIViewController {
     @IBOutlet weak var endDateTextField: UITextField!
 
     @IBAction func createTrip(_ sender: Any) {
-        let trip = NewTrip(completion: false, destination: destinationTextField.text!, start_date: startDateTextField.text!, end_date: endDateTextField.text!)
+        let trip = Trip(completion: false, destination: destinationTextField.text!, start_date: startDateTextField.text!, end_date: endDateTextField.text!)
         
         Networking.shared.fetch(route: .createTrip, data: trip) { (data) in
             let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
@@ -25,6 +25,8 @@ class NewTripVC: UIViewController {
             
             print(trip)
         }
+        
+       
         
         
     }

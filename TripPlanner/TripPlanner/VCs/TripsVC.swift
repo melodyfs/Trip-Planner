@@ -13,6 +13,7 @@ class TripsVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var trips: [Trip] = []
+    var trip: Trip?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,13 +22,10 @@ class TripsVC: UIViewController {
         tableView.dataSource = self
         
         Networking.shared.fetch(route: .getUser, data: nil) { (data) in
-            let trips = try? JSONDecoder().decode(Trip.self, from: data)
+            let trips = try? JSONDecoder().decode([Trip].self, from: data)
             print(trips!)
             guard let trip = trips?.trips else { return }
-            
-//            let trips = try? JSONDecoder().decode([NewTrip].self, from: data)
-//            guard let trip = trips else {return}
-//
+        
             self.trips = trip
             
             DispatchQueue.main.async {
@@ -36,12 +34,31 @@ class TripsVC: UIViewController {
         }
 
     }
-
+    @IBAction func completion(_ sender: UIButton) {
+        
+        trip?.completion = true
+        
+        Networking.shared.fetch(route: .patchTrip, data: self.trip) { (data) in
+            let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
+            guard let trip = json else {
+                return
+            }
+        }
+        
+       
+        
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationItem.hidesBackButton = true
+    }
     
 
 }
@@ -59,6 +76,7 @@ extension TripsVC: UITableViewDataSource {
         cell.destinationLabel.text = trip.destination
         cell.startDateLabel.text = trip.start_date
         cell.endDateLabel.text = trip.end_date
+        
         
         return cell
     }
