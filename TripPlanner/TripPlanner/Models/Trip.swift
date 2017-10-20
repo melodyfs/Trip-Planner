@@ -14,17 +14,18 @@ struct NewTrip: Codable {
     var destination: String
     var start_date: String
     var end_date: String
+//     var trips = [NewTrip]()
     
 }
 
 struct Trip: Decodable {
-    
+
     var completion: Bool!
     var destination: String!
     var start_date: String!
     var end_date: String!
     var trips = [Trip]()
-   
+
     init(completion: Bool, destination: String, start_date: String, end_date: String) {
         self.completion = completion
         self.destination = destination
@@ -36,10 +37,10 @@ struct Trip: Decodable {
 }
 
 extension Trip {
-    
+
     enum Trips: String, CodingKey {
         case trips
-        
+
         enum Trip: String, CodingKey{
             case completion
             case destination
@@ -48,8 +49,8 @@ extension Trip {
         }
 
     }
-    
-    
+
+
     init(from decoder: Decoder) throws {
         var container = try decoder.container(keyedBy: Trips.self)
         var tripsContainer = try container.nestedUnkeyedContainer(forKey: .trips)

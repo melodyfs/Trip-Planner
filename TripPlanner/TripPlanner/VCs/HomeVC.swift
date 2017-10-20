@@ -31,6 +31,7 @@ class HomeVC: UIViewController {
         UserDefaults.standard.synchronize()
         
         Networking.shared.fetch(route: .createUser, data: user) { (data) in
+            
             print("User created")
             
         }
@@ -55,7 +56,7 @@ class HomeVC: UIViewController {
         
         DispatchQueue.main.async {
             Networking.shared.fetch(route: .getUser, data: nil) { (data) in
-                let trips = try? JSONDecoder().decode(Trip.self, from: data)
+                let trips = try? JSONDecoder().decode(NewTrip.self, from: data)
                 print(trips)
                 
             }

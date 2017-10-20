@@ -139,20 +139,20 @@ class Trip(Resource):
 
         # pdb.set_trace()
 
-        if 'email' in args and destination not in user:
-            result = user_collection.insert_one(
-                {"email": email},
-                {'$set': {
-                    "trips": [
-                        {
-                        'destination': destination,
+        if 'email' in args:
+            if destination not in user:
+                result = user_collection.update_one(
+                    {'email': email},
+                    {'$push': {
+                        "trips": {
+                            'destination': destination,
                         # 'waypoints': waypoints,
-                        "completion": completion,
-                        "start_date": start_date,
-                        "end_date": end_date
-                    }]
-                }
-             })
+                            "completion": completion,
+                            "start_date": start_date,
+                            "end_date": end_date
+                            }
+                            }
+                        })
 
             return result
         else:
@@ -177,14 +177,40 @@ class Trip(Resource):
         destination = args.get("destination")
         email = args.get("email")
         user_collection = app.db.user
+        user = user_collection.find_one({'email': email})
 
-        if 'email' in args and 'destination' in args:
-            trip = user_collection.update_one(
-                {'email': email},
-                {"$set":
-                 {'destination': destination}
-                 })
-            return trip
+        update_ = request.json
+        new_destination = update_.get('destination')
+        new_completion = update_.get('completion')
+        new_start_date = update_.get('start_date')
+        new_end_date = update_.get('end_date')
+
+
+        if user:
+            if destination:
+                result = user_collection.update_one(
+                    {'email': email},
+                    {'$set': {
+                        "trips": {
+                            'destination': new_destination,
+                        # 'waypoints': waypoints,
+                            "completion": new_completion,
+                            "start_date": new_start_date,
+                            "end_date": new_end_date
+                            }
+                            }
+                        })
+                # if new_destination:
+                #     user{['destination']} = new_destination
+                # if new_completion:
+                #     user['completion'] = new_completion
+                # if new_start_date:
+                #     user['start_date'] = new_start_date
+                # if new_end_date:
+                #     user['end_date'] = new_end_date
+                # user_collection.save(user)
+
+            return (result, 200, None)
         else:
             return ({"error": "Can't modify the trip"}, 404, None)
 

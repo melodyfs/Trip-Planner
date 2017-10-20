@@ -24,6 +24,10 @@ class TripsVC: UIViewController {
             let trips = try? JSONDecoder().decode(Trip.self, from: data)
             print(trips!)
             guard let trip = trips?.trips else { return }
+            
+//            let trips = try? JSONDecoder().decode([NewTrip].self, from: data)
+//            guard let trip = trips else {return}
+//
             self.trips = trip
             
             DispatchQueue.main.async {
