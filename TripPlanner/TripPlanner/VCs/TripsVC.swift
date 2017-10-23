@@ -23,9 +23,8 @@ class TripsVC: UIViewController {
         
         Networking.shared.fetch(route: .getUser, data: nil) { (data) in
             let trips = try? JSONDecoder().decode([Trip].self, from: data)
-            print(trips!)
-            guard let trip = trips?.trips else { return }
-        
+            print(trips)
+            guard let trip = trips else { return }
             self.trips = trip
             
             DispatchQueue.main.async {
@@ -39,10 +38,9 @@ class TripsVC: UIViewController {
         trip?.completion = true
         
         Networking.shared.fetch(route: .patchTrip, data: self.trip) { (data) in
-            let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
-            guard let trip = json else {
-                return
-            }
+            let trips = try? JSONDecoder().decode([Trip].self, from: data)
+            guard let trip = trips else { return }
+            print(trips)
         }
         
        
@@ -76,7 +74,6 @@ extension TripsVC: UITableViewDataSource {
         cell.destinationLabel.text = trip.destination
         cell.startDateLabel.text = trip.start_date
         cell.endDateLabel.text = trip.end_date
-        
         
         return cell
     }

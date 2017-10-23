@@ -22,7 +22,6 @@ struct BasicAuth {
 
 enum Route {
     case createUser
-//    (email: String, password: String)
     case getUser
     case createTrip
     case patchTrip
@@ -55,38 +54,23 @@ enum Route {
         switch self {
         case .createUser:
             return [:]
-        case .patchTrip:
-            let urlParams = ["email": String(describing: UserDefaults.standard.value(forKey: "email")!)]
-            return urlParams
         default:
             let urlParams = ["email": String(describing: UserDefaults.standard.value(forKey: "email")!)]
             return urlParams
         }
     }
-//    data: Encodable?
     
     func body(data: Encodable?) -> Data? {
+        let encoder = JSONEncoder()
+
         switch self {
-//            let .createUser(email, password)
         case .createUser:
-//            let body = ["email": "email",
-//                        "password": "password"]
-//            let httpBody = try? JSONSerialization.data(withJSONObject: body)
-//            return httpBody
-            let encoder = JSONEncoder()
             guard let model = data as? User else {return nil}
             let result = try? encoder.encode(model)
-            let jsonString = String(data: result!, encoding: .utf8)
-            print(jsonString)
-
             return result
         case .createTrip:
-            let encoder = JSONEncoder()
             guard let model = data as? Trip else {return nil}
             let result = try? encoder.encode(model)
-            let jsonString = String(data: result!, encoding: .utf8)
-            print(jsonString)
-            
             return result
         default:
             let error = ["error": "incorrect method"]
@@ -130,11 +114,9 @@ class Networking {
         request.httpBody = route.body(data: data)
         request.httpMethod = route.method()
         UserDefaults.standard.synchronize()
-//        Route.createUser(email: (UserDefaults.standard.value(forKey: "email")) as! String, password: (UserDefaults.standard.value(forKey: "password")) as! String)
-//
+
         session.dataTask(with: request) { (data, res, err) in
             if let data = data {
-//                print("get to networking")
                 completion(data)
             }
             else {

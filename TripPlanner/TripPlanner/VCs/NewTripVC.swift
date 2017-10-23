@@ -13,17 +13,15 @@ class NewTripVC: UIViewController {
     @IBOutlet weak var destinationTextField: UITextField!
     @IBOutlet weak var startDateTextField: UITextField!
     @IBOutlet weak var endDateTextField: UITextField!
-
+    @IBOutlet weak var placeNameTextField: UITextField!
+    
     @IBAction func createTrip(_ sender: Any) {
-        let trip = Trip(completion: false, destination: destinationTextField.text!, start_date: startDateTextField.text!, end_date: endDateTextField.text!)
+        let trip = Trip(completion: false, destination: destinationTextField.text!, start_date: startDateTextField.text!, end_date: endDateTextField.text!, waypoints: [])
         
         Networking.shared.fetch(route: .createTrip, data: trip) { (data) in
-            let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
-            guard let trip = json else {
-                return
-            }
-            
-            print(trip)
+            let trips = try? JSONDecoder().decode([Trip].self, from: data)
+            guard let trip = trips else { return }
+            print(trips)
         }
         
        

@@ -246,25 +246,31 @@
                                 <rect key="frame" x="37" y="122" width="300" height="300"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destination" textAlignment="natural" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="WaZ-pF-jda">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="67.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="52"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Start Date" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="4eE-ZF-88D">
-                                        <rect key="frame" x="0.0" y="77.5" width="300" height="67.5"/>
+                                        <rect key="frame" x="0.0" y="62" width="300" height="52"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="End Date" textAlignment="natural" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="b8U-JO-by5">
-                                        <rect key="frame" x="0.0" y="155" width="300" height="67.5"/>
+                                        <rect key="frame" x="0.0" y="124" width="300" height="52"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First place name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FOS-Ke-BUf">
+                                        <rect key="frame" x="0.0" y="186" width="300" height="52"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tUk-Yi-WT7">
-                                        <rect key="frame" x="0.0" y="232.5" width="300" height="67.5"/>
+                                        <rect key="frame" x="0.0" y="248" width="300" height="52"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <state key="normal" title="Create"/>
                                         <connections>
@@ -290,6 +296,7 @@
                     <connections>
                         <outlet property="destinationTextField" destination="WaZ-pF-jda" id="Z0j-4X-dLN"/>
                         <outlet property="endDateTextField" destination="b8U-JO-by5" id="OMj-eQ-HMQ"/>
+                        <outlet property="placeNameTextField" destination="FOS-Ke-BUf" id="RDx-vt-CcN"/>
                         <outlet property="startDateTextField" destination="4eE-ZF-88D" id="V2p-KY-vAe"/>
                     </connections>
                 </viewController>

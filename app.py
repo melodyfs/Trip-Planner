@@ -7,8 +7,8 @@ import bcrypt
 import pdb
 
 app = Flask(__name__)
-# mongo = MongoClient('localhost', 27017)
-mongo = MongoClient('mongodb://melodyfs:Melody0116@ds015335.mlab.com:15335/trip_planner_development')
+mongo = MongoClient('localhost', 27017)
+# mongo = MongoClient('mongodb://melodyfs:Melody0116@ds015335.mlab.com:15335/trip_planner_development')
 app.db = mongo.trip_planner_development
 # app.bcrypt_rounds = 12
 api = Api(app)
@@ -132,7 +132,7 @@ class Trip(Resource):
 
         email = args.get('email')
         destination = new_trip.get('destination')
-        # waypoints = new_trip.get('waypoints')
+        place_name = new_trip.get('place_name')
         completion = new_trip.get("completion")
         start_date = new_trip.get("start_date")
         end_date = new_trip.get("end_date")
@@ -147,7 +147,10 @@ class Trip(Resource):
                     {'$push': {
                         "trips": {
                             'destination': destination,
-                        # 'waypoints': waypoints,
+                            'waypoints': [ {
+                                "place_name": place_name
+                                }
+                            ],
                             "completion": completion,
                             "start_date": start_date,
                             "end_date": end_date
@@ -186,19 +189,21 @@ class Trip(Resource):
         new_completion = update_.get('completion')
         new_start_date = update_.get('start_date')
         new_end_date = update_.get('end_date')
-        # pdb.set_trace()
+        trips = user["trips"]
+
+        pdb.set_trace()
 
         if user and destination:
             if new_destination:
-                user['trips'][0]['destination'] = new_destination
-                # pdb.set_trace()
+                trips['destination'] = new_destination
             if new_completion:
-                user['trips'][0]['completion'] = new_completion
+                trips['completion'] = new_completion
             if new_start_date:
-                user['trips'][0]['start_date'] = new_start_date
+                trips['start_date'] = new_start_date
             if new_end_date:
-                user['trips'][0]['end_date'] = new_end_date
+                trips['end_date'] = new_end_date
             user_collection.save(user)
+
 
             return (user, 200, None)
         else:

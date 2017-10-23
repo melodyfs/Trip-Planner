@@ -14,5 +14,11 @@ struct Trip: Codable {
     var destination: String
     var start_date: String
     var end_date: String
+    var waypoints: [Waypoint]
 }
+
+struct Waypoint: Codable {
+    let place_name: String
+}
+
 

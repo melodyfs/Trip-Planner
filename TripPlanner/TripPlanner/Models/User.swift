@@ -12,15 +12,7 @@ struct User: Codable {
     
     var email: String
     var password: String
-//    var trips: [Trip]
 
-//    init(email: String, password: String) {
-//        self.email = email
-//        self.password = password
-//       , self.trips = trips
-
-//    }
-//    
 }
 
 
