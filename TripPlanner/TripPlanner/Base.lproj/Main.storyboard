@@ -13,7 +13,7 @@
         <!--HomeVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="HomeVC" customModule="TripPlanner" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginVC" id="BYZ-38-t0r" customClass="HomeVC" customModule="TripPlanner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -110,7 +110,7 @@
         <!--TripsVC-->
         <scene sceneID="IsL-1E-TQj">
             <objects>
-                <viewController id="641-Iu-LUW" customClass="TripsVC" customModule="TripPlanner" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="tripsVC" id="641-Iu-LUW" customClass="TripsVC" customModule="TripPlanner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KTs-Dq-RQi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -324,6 +324,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="Ads-lt-Of1"/>
         <segue reference="R1d-hR-2Yz"/>
     </inferredMetricsTieBreakers>
 </document>

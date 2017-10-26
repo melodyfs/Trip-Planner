@@ -67,11 +67,28 @@ class HomeVC: UIViewController {
         
     }
     
+//    override func viewDidAppear(_ animated: Bool) {
+//        <#code#>
+//    }
+//    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-            
+        if UserDefaults.standard.value(forKey: "email") != nil && UserDefaults.standard.value(forKey: "password") != nil {
+            UserDefaults.standard.set(true, forKey: "launchedBefore")
         }
+        
+        let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+        
+        if launchedBefore {
+            let showResult = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "tripsVC") as! TripsVC
+            navigationController?.pushViewController(showResult, animated: true)
+        } else {
+            let showResult = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "loginVC") as! HomeVC
+            navigationController?.pushViewController(showResult, animated: true)
+        }
+            
+    }
 
     
     
