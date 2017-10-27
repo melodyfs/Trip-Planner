@@ -76,7 +76,7 @@
                                         <state key="normal" title="Log In"/>
                                         <connections>
                                             <action selector="loginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MDH-wR-JK9"/>
-                                            <segue destination="8re-Un-k0r" kind="show" id="ie2-jO-bTF"/>
+                                            <segue destination="8re-Un-k0r" kind="show" identifier="showTrips" id="ie2-jO-bTF"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fki-nZ-pLD">
@@ -324,7 +324,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Ads-lt-Of1"/>
-        <segue reference="R1d-hR-2Yz"/>
+        <segue reference="JGB-Nx-dhO"/>
     </inferredMetricsTieBreakers>
 </document>

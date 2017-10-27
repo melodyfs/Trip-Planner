@@ -6,5 +6,6 @@ target 'TripPlanner' do
   use_frameworks!
 
   # Pods for TripPlanner
+	pod 'KeychainSwift', '~> 9.0'
 
 end

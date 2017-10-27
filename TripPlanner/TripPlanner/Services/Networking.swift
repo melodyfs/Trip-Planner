@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import KeychainSwift
 
 struct BasicAuth {
     static func generateBasicAuthHeader(username: String, password: String) -> String {
@@ -19,6 +20,7 @@ struct BasicAuth {
     }
 }
 
+let keychain = KeychainSwift()
 
 enum Route {
     case createUser
@@ -37,13 +39,14 @@ enum Route {
     }
     
     func headers() -> [String: String] {
+        
         switch self {
         case .createUser:
             return [:]
         default:
             let headers = ["Content-Type": "application/json",
                            "Accept": "application/json",
-                           "Authorization": String(describing: UserDefaults.standard.value(forKey: "BasicAuth")!)]
+                           "Authorization": String(describing: keychain.get("BasicAuth")!)]
             
             return headers
         }
@@ -51,11 +54,12 @@ enum Route {
     }
     
     func urlParams() -> [String: String] {
+        
         switch self {
         case .createUser:
             return [:]
         default:
-            let urlParams = ["email": String(describing: UserDefaults.standard.value(forKey: "email")!)]
+            let urlParams = ["email": String(describing: keychain.get("email")!)]
             return urlParams
         }
     }
